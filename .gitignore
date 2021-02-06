@@ -1,0 +1,5 @@
+init.tf
+dev.log
+.terraform.lock.hcl
+terraform.tfstate*
+.terraform

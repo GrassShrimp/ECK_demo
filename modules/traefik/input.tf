@@ -1,0 +1,7 @@
+variable "storageClassName" {
+  
+}
+
+variable "domain" {
+  
+}
