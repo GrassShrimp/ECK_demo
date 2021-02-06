@@ -31,8 +31,8 @@ module "kibana" {
   domain = var.domain
 }
 
-module "ampServer" {
-  source = "./ampServer"
+module "apmServer" {
+  source = "./apmServer"
 
   namespace = helm_release.eck-operator.namespace
 }
