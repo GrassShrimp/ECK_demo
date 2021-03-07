@@ -24,3 +24,9 @@ resource "kubernetes_manifest" "apmServer" {
   EOF
   )
 }
+
+# data "external" "apm-token" {
+#   program = ["/bin/bash", "-c", "kubectl get secret/apm-server-quickstart-apm-token -n elastic-system -o jsonpath={@.data} || true"]
+
+#   depends_on = [ kubernetes_manifest.apmServer ]
+# }

@@ -8,7 +8,3 @@ module "ECK" {
   domain = "pinjyun.local"
   storageClassName = "hostpath"
 }
-module "demo" {
-  source = "./modules/demo"
-  domain = "pinjyun.local"
-}

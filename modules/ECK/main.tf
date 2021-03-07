@@ -12,8 +12,6 @@ resource "helm_release" "eck-operator" {
       enabled: false
     EOF
   ]
-
-  create_namespace = true
 }
 
 module "elasticsearch" {

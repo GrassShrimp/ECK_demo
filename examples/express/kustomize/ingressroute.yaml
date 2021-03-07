@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: express
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: Host(`express.pinjyun.local`)
+    services:
+    - name: express
+      port: 80

@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- "deployment.yaml"
+- "service.yaml"
+- "ingressroute.yaml"
+secretGenerator:
+- name: express
+  literals:
+  # kubectl get secret/apm-server-quickstart-apm-token -n elastic-system -o go-template='{{index .data "secret-token" | base64decode}}'
+  - secretToken=V999xmeL6x66SD8jVu5fRI66
+namespace: default
