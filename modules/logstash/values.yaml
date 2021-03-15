@@ -1,0 +1,39 @@
+replicas: 1
+logstashConfig:
+  logstash.yml: |
+    http:
+      host: 0.0.0.0
+      port: 9600
+logstashPipeline:
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+        tags => ["beats"]
+      }
+    }
+    filter {
+      if [kubernetes][namespace] and "traefik" == [kubernetes][namespace] {
+        grok {
+          match => { "message" => "%{IP:remote_IP_address} - %{DATA:client_user_name} \[%{HTTPDATE:datetime}\] \"%{WORD:request_method} %{DATA:request_path} %{DATA:request_protocol}\" %{NUMBER:origin_server_HTTP_status} %{NUMBER:origin_server_content_size} \"%{DATA:request_referrer}\" \"%{DATA:request_user_agent}\" %{NUMBER:number_of_requests_received_since_Traefik_started} \"%{DATA:Traefik_frontend_name}\" \"%{DATA:Traefik_backend_URL}\" %{NUMBER:request_duration_in_ms}"}
+        }
+      }
+    }
+    output {
+      elasticsearch {
+        hosts => ["http://quickstart-es-http.elastic-system.svc.cluster.local:9200"]
+        index => "%{[@metadata][beat]}-%{[kubernetes][namespace]}-%{[@metadata][version]}-%{+YYYY.MM}"
+        user => "elastic"
+        password => "jA8614phAcuG634S1vA99QRX"
+      }
+    }
+extraPorts:
+  - name: beats
+    containerPort: 5044
+service:
+  type: ClusterIP
+  ports:
+  - name: beats
+    port: 5044
+    protocol: TCP
+    targetPort: 5044
