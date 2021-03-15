@@ -36,6 +36,7 @@ $ terraform apply -target=module.ECK
 
 ![kibana index managment](https://github.com/GrassShrimp/ECK_demo/blob/master/kibana_index_management.png)
 ![kibana log dashboard](https://github.com/GrassShrimp/ECK_demo/blob/master/kibana_log.png)
+![kibana dashboard](https://github.com/GrassShrimp/ECK_demo/blob/master/kibana-dashboard.png)
 get secretkey of apm server and modify secretToken of examples/express/kustomize/kustomization.yaml
 
 ```bash
