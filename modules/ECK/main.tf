@@ -7,26 +7,28 @@ resource "helm_release" "eck-operator" {
 
   values = [
     <<EOF
-    installCRDs: false
     webhook:
       enabled: false
     EOF
   ]
+
+  create_namespace = true
+
+  provisioner "local-exec" {
+    command = "kubectl wait --for=condition=Established --all crd"
+  }
 }
 
 module "elasticsearch" {
   source = "./elasticsearch"
 
   namespace = helm_release.eck-operator.namespace
-  domain = var.domain
-  storageClassName = var.storageClassName
 }
 
 module "kibana" {
   source = "./kibana"
 
   namespace = helm_release.eck-operator.namespace
-  domain = var.domain
 }
 
 module "apmServer" {

@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: elasticsearch
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: HOST(`elasticsearch.pinjyun.local`)
+    kind: Rule
+    services:
+    - name: quickstart-es-http
+      port: 9200

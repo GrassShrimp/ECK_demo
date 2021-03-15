@@ -30,27 +30,23 @@ resource "helm_release" "traefik" {
         storageClass: ${var.storageClassName}
     EOF
   ]
+
+  create_namespace = true
+
+  provisioner "local-exec" {
+    command = "kubectl wait --for=condition=Established --all crd"
+  }
 }
 
-resource "kubernetes_manifest" "ingressRoute" {
-  provider = kubernetes-alpha
-  
-  manifest = yamldecode(
-  <<EOF
-  apiVersion: traefik.containo.us/v1alpha1
-  kind: IngressRoute
-  metadata:
-    name: traefik-dashboard
-    namespace: ${helm_release.traefik.namespace}
-  spec:
-    entryPoints:
-    - web
-    routes:
-    - match: Host(`traefik.${var.domain}`)
-      kind: Rule
-      services:
-      - name: api@internal
-        kind: TraefikService
-  EOF
-  )  
+resource "null_resource" "ingressRoute" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f ./ingress_route.yaml -n ${helm_release.traefik.namespace}"
+    working_dir = path.module
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "kubectl delete -f ./ingress_route.yaml -n traefik"
+    working_dir = path.module
+  }
 }

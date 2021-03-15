@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kibana
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: Host(`kibana.pinjyun.local`)
+    kind: Rule
+    services:
+    - name: quickstart-kb-http
+      port: 5601

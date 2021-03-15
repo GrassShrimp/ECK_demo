@@ -1,46 +1,17 @@
-resource "kubernetes_manifest" "kibana" {
-  provider = kubernetes-alpha
-  
-  manifest = yamldecode(
-  <<EOF
-  apiVersion: kibana.k8s.elastic.co/v1
-  kind: Kibana
-  metadata:
-    name: quickstart
-    namespace: ${var.namespace}
-  spec:
-    version: 7.10.1
-    count: 1
-    elasticsearchRef:
-      name: quickstart
-      namespace: ${var.namespace}
-    http:
-      tls:
-        selfSignedCertificate:
-          disabled: true
-  EOF
-  )
-}
+resource "null_resource" "kibana" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f ./kibana.yaml -n ${var.namespace}"
+    working_dir = path.module
+  }
 
-resource "kubernetes_manifest" "ingressRoute" {
-  provider = kubernetes-alpha
-  
-  manifest = yamldecode(
-  <<EOF
-  apiVersion: traefik.containo.us/v1alpha1
-  kind: IngressRoute
-  metadata:
-    name: kibana
-    namespace: ${var.namespace}
-  spec:
-    entryPoints:
-    - web
-    routes:
-    - match: Host(`kibana.${var.domain}`)
-      kind: Rule
-      services:
-      - name: quickstart-kb-http
-        port: 5601
-  EOF
-  )
+  provisioner "local-exec" {
+    command = "kubectl apply -f ./ingress_route.yaml -n ${var.namespace}"
+    working_dir = path.module
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "kubectl delete -f ./ingress_route.yaml -n elastic-system"
+    working_dir = path.module
+  }
 }
