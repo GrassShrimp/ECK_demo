@@ -24,7 +24,7 @@ logstashPipeline:
         hosts => ["http://quickstart-es-http.elastic-system.svc.cluster.local:9200"]
         index => "%{[@metadata][beat]}-%{[kubernetes][namespace]}-%{[@metadata][version]}-%{+YYYY.MM}"
         user => "elastic"
-        password => "jA8614phAcuG634S1vA99QRX"
+        password => "G9W4v0946gJ3f3WAGyVGFn86"
       }
     }
 extraPorts:

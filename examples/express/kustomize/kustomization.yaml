@@ -8,5 +8,5 @@ secretGenerator:
 - name: express
   literals:
   # kubectl get secret/apm-server-quickstart-apm-token -n elastic-system -o go-template='{{index .data "secret-token" | base64decode}}'
-  - secretToken=V999xmeL6x66SD8jVu5fRI66
+  - secretToken=X2Qet11l235GDli281zZ1WQE
 namespace: default

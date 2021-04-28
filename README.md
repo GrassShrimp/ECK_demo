@@ -34,6 +34,12 @@ install elasticsearch, kibana, filebeats, and apm server vi ECK operator
 $ terraform apply -target=module.ECK
 ```
 
+get password of elastic user
+
+```bash
+$ kubectl get secret quickstart-es-elastic-user -n elastic-system -o go-template='{{.data.elastic | base64decode}}'
+```
+
 ![kibana index managment](https://github.com/GrassShrimp/ECK_demo/blob/master/kibana_index_management.png)
 ![kibana log dashboard](https://github.com/GrassShrimp/ECK_demo/blob/master/kibana_log.png)
 ![kibana dashboard](https://github.com/GrassShrimp/ECK_demo/blob/master/kibana-dashboard.png)

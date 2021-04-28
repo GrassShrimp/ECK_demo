@@ -2,7 +2,7 @@ resource "helm_release" "eck-operator" {
   name       = "elastic-operator"
   repository = "https://helm.elastic.co"
   chart      = "eck-operator"
-  version    = "1.3.1"
+  version    = "1.5.0"
   namespace  = "elastic-system"
 
   values = [

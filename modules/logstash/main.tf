@@ -2,7 +2,7 @@ resource "helm_release" "logstash" {
   name       = "logstash"
   repository = "https://helm.elastic.co"
   chart      = "logstash"
-  version    = "7.10.1"
+  version    = "7.12.0"
   namespace  = "logstash"
   
   values = [
